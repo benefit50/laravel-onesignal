@@ -52,6 +52,12 @@ class OneSignalClient
         return $this;
     }
 
+    /**
+     * OneSignalClient constructor.
+     * @param $appId
+     * @param $restApiKey
+     * @param $userAuthKey
+     */
     public function __construct($appId, $restApiKey, $userAuthKey)
     {
         $this->appId = $appId;
@@ -61,6 +67,30 @@ class OneSignalClient
         $this->client = new Client();
         $this->headers = ['headers' => []];
         $this->additionalParams = [];
+    }
+
+    /**
+     * @param $appId
+     */
+    public function setAppId($appId)
+    {
+        $this->appId = $appId;
+    }
+
+    /**
+     * @param $restApiKey
+     */
+    public function setRestApiKey($restApiKey)
+    {
+        $this->restApiKey = $restApiKey;
+    }
+
+    /**
+     * @param $userKey
+     */
+    public function setUserKey($userKey)
+    {
+        $this->userAuthKey = $userKey;
     }
 
     public function testCredentials() {
