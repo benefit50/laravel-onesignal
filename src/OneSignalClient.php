@@ -101,6 +101,16 @@ class OneSignalClient
         $this->headers['headers']['Authorization'] = 'Basic '.$this->restApiKey;
     }
 
+    private function customAuth($auth)
+    {
+        $key = '';
+        if ($auth == 'rest')
+            $key = $this->restApiKey;
+        if ($auth == 'user')
+            $key = $this->userAuthKey;
+        $this->headers['headers']['Authorization'] = 'Basic '.$key;
+    }
+
     private function usesJSON() {
         $this->headers['headers']['Content-Type'] = 'application/json';
     }
@@ -306,7 +316,7 @@ class OneSignalClient
      */
     public function getPlayers()
     {
-        return $this->sendPlayer([], 'GET', self::ENDPOINT_PLAYERS);
+        return $this->sendPlayer([], 'GET', self::ENDPOINT_PLAYERS, 'rest');
     }
 
     /**
@@ -324,7 +334,7 @@ class OneSignalClient
      */
     public function addApplication(Array $parameters)
     {
-        return $this->send($parameters, 'POST', self::ENDPOINT_APPS);
+        return $this->send($parameters, 'POST', self::ENDPOINT_APPS, 'user');
     }
 
     /**
@@ -333,7 +343,7 @@ class OneSignalClient
      */
     public function getApplication($appId)
     {
-        return $this->send([], 'GET', self::ENDPOINT_APPS . '/' . $appId);
+        return $this->send([], 'GET', self::ENDPOINT_APPS . '/' . $appId, 'user');
     }
 
     /**
@@ -344,9 +354,11 @@ class OneSignalClient
      * @param $endpoint
      * @return mixed
      */
-    private function sendPlayer(Array $parameters, $method, $endpoint)
+    private function sendPlayer(Array $parameters, $method, $endpoint, $auth = false)
     {
-        $this->requiresAuth();
+        if (is_string($auth))
+            $this->customAuth($auth);
+
         $this->usesJSON();
 
         $parameters['app_id'] = $this->appId;
@@ -357,15 +369,15 @@ class OneSignalClient
     }
 
     /**
-     * Alias method for sendPlayer
      * @param array $parameters
      * @param $method
      * @param $endpoint
+     * @param bool $auth
      * @return mixed
      */
-    private function send(Array $parameters, $method, $endpoint)
+    private function send(Array $parameters, $method, $endpoint, $auth = false)
     {
-        return $this->sendPlayer($parameters, $method, $endpoint);
+        return $this->sendPlayer($parameters, $method, $endpoint, $auth);
     }
 
     public function post($endPoint)
