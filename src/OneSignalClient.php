@@ -71,26 +71,32 @@ class OneSignalClient
 
     /**
      * @param $appId
+     * @return $this
      */
     public function setAppId($appId)
     {
         $this->appId = $appId;
+        return $this;
     }
 
     /**
      * @param $restApiKey
+     * @return $this
      */
     public function setRestApiKey($restApiKey)
     {
         $this->restApiKey = $restApiKey;
+        return $this;
     }
 
     /**
      * @param $userKey
+     * @return $this
      */
     public function setUserKey($userKey)
     {
         $this->userAuthKey = $userKey;
+        return $this;
     }
 
     public function testCredentials() {
