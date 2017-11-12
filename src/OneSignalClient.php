@@ -358,6 +358,16 @@ class OneSignalClient
     }
 
     /**
+     * @param $appId
+     * @param array $parameters
+     * @return mixed
+     */
+    public function editApplication($appId, Array $parameters)
+    {
+        return $this->send($parameters, 'PUT', self::ENDPOINT_APPS . '/' . $appId, 'user');
+    }
+
+    /**
      * Create or update a by $method value
      *
      * @param array $parameters
